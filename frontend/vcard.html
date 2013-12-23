@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">    
   </head>
   <script id='vcardTemplate' type='text/x-jquery-tmpl'>
       <div class="col-xs-12 col-md-6">
         <div class="alert alert-danger">
           <h2>${name}</h2>
-          <img class='img-circle' src='uploads/${nickname}.jpg' width='96' height='96' data-img="${nickname}" />
-          <span class="label label-warning">${tel}</span>          
-          <p><input type='file' class="btn btn-large btn-info" name='filename' id="${nickname}">
-          <p><button class="btn btn-large btn-info" data-toggle='upload-photo' data-nickname="${nickname}">Upload Photo</button></p>          
+          <img class='img-circle' src='uploads/${nickname}.jpg' width='96' height='96' data-toggle='photo' data-nickname="${nickname}" />
+          <span class="label label-warning">${tel}</span>   
+          <div class="hide-admin" data-admin='${nickname}'>       
+            <p><input type='file' class="btn btn-large btn-info" name='filename' id="${nickname}">
+            <p><button class="btn btn-large btn-info" data-toggle='upload-photo' data-nickname="${nickname}">Upload Photo</button></p>   
+          </div>       
         </div>
       </div>
   </script>
@@ -38,6 +41,21 @@
           $('#vcardTemplate').tmpl(data).appendTo('#userList');
         },
         complete: function (data, textStatus, jqXHR) {
+          $("img[data-toggle='photo']").each(function(index) {
+            var me = $(this);
+
+            me.on('click', function() {
+              var nickname = me.data('nickname');
+              var name = "div[data-admin='" + nickname + "'";
+              
+              if ($(name).hasClass('hide-admin')) {
+                $(name).removeClass('hide-admin');
+              } else {
+                $(name).addClass('hide-admin');
+              }
+            });
+          });
+
           $("button[data-toggle='upload-photo']").on('click', function() {
             var nickname = $(this).data('nickname');
             var data = new FormData();
