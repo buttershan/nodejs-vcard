@@ -47,7 +47,16 @@ exports.upload = function(req, res) {
     var fs = require('fs');
     var path = require('path');
     var type = req.params.type;   // 'photo' or 'voice'
-    var ext = (type === 'photo') ? '.jpg' : '.mp3';
+    var ext;
+
+    switch (type) {
+            case 'photo':
+                    ext = '.jpg';
+                    break;
+            case 'voice':
+                    ext = '.mp3';
+                    break;
+    }
     var filename = req.params.nickname + ext;
 
     fs.readFile(req.files.file.path, function (err, data) {

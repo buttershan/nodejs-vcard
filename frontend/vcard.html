@@ -78,7 +78,7 @@
                processData: false,
                type: 'POST',
                success: function() {
-                $("img[data-img='" + nickname + "'").prop('src', '/uploads/' + nickname + '.jpg');
+                $("img[data-nickname='" + nickname + "'").prop('src', '/uploads/' + nickname + '.jpg');
                 console.log('photo upload success');
                }
             });
