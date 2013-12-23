@@ -1,38 +1,35 @@
 var vcard = [];
-exports.create= function(req, res) {
-        console.log(">>>>>>>>>>>>> create");
 
+exports.create = function(req, res){
+        var person = {
+                        nickname: "",
+                        name: "",
+                        tel: ""
+        };
 
-var person = {
-        name:"",
-        nickname: "",
-        tel:""
+        person.nickname = req.params.nickname;
 
-};
+        person.tel =  req.query.tel;
+        person.name = req.query.name;
 
-person.nickname = req.params.name;
-person.name = req.query.name;
-person.tel = req.query.tel;
-vcard.push(person);
-
+        vcard.push(person);
 
         res.end();
 };
 
-exports.read= function(req, res) {
-        console.log(">>>>>>>>>>>>> read");
-
+exports.read = function(req, res){
         res.send(vcard);
-         res.end();
+
+        res.end();        
 };
 
 exports.update = function(req, res){
-        var nickname = req.params.name;
+        var nickname = req.params.nickname;
 
         vcard.forEach(function (entry) {
                 if (entry.nickname === nickname) {
                         console.log('found!');
-                        
+
                         entry.name =  req.query.name;
                         entry.tel =  req.query.tel;
                 }
@@ -41,16 +38,27 @@ exports.update = function(req, res){
         res.end();
 };
 
-exports.delete= function(req, res) {
-        console.log(">>>>>>>>>>>>> delete");
-
-
+exports.delete = function(req, res){
         res.end();
 };
 
-exports.upload= function(req, res) {
-        console.log(">>>>>>>>>>>>> upload");
+exports.upload = function(req, res) {
 
+    var fs = require('fs');
+    var path = require('path');
+    // var ext = path.extname(req.files.file.path);
+    var filename = req.params.nickname + '.jpg';
+    var type = req.params.type;   // 'photo' or 'voice'
 
-        res.end();
+    fs.readFile(req.files.file.path, function (err, data) {
+        var newPath = path.join(__dirname, '../frontend/', 'uploads',  filename);
+
+        fs.writeFile(newPath, data, function (err) {
+            if (err) {
+                res.json({status: 'error', message: err});
+            } else {
+                res.json({status: 'ok'});
+            }
+        });
+    });
 };

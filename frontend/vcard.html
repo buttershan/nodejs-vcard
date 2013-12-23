@@ -10,9 +10,10 @@
       <div class="col-xs-12 col-md-6">
         <div class="alert alert-danger">
           <h2>${name}</h2>
+          <img class='img-circle' src='uploads/${nickname}.jpg' width='96' height='96' />
           <span class="label label-warning">${tel}</span>          
-          <p><input type='file' class="btn btn-large btn-info" name='filename'>
-          <p><button class="btn btn-large btn-info" data-toggle='upload-photo'>Upload Photo</button></p>          
+          <p><input type='file' class="btn btn-large btn-info" name='filename' id="${nickname}">
+          <p><button class="btn btn-large btn-info" data-toggle='upload-photo' data-nickname="${nickname}">Upload Photo</button></p>          
         </div>
       </div>
   </script>
@@ -38,7 +39,21 @@
         },
         complete: function (data, textStatus, jqXHR) {
           $("button[data-toggle='upload-photo']").on('click', function() {
-            alert("OK");
+            var nickname = $(this).data('nickname');
+            var data = new FormData();
+            data.append('file', $('#' + nickname)[0].files[0]);
+
+            $.ajax({
+               url: '/1/user/' + nickname + '/photo',
+               data: data,
+               cache: false,
+               contentType: false,
+               processData: false,
+               type: 'POST',
+               success: function() {
+                console.log('upload success');
+               }
+            });
           });          
         }
       });
