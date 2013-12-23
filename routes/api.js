@@ -1,10 +1,16 @@
-var vcard = [];
+var vcard;
+var fs = require('fs');
+var path = require('path');
+
+fs.readFile(path.join(__dirname, '/db.json'), function(err, data) {
+        vcard = JSON.parse(data);
+});
 
 exports.create = function(req, res){
         var person = {
-                        nickname: "",
-                        name: "",
-                        tel: ""
+                nickname: "",
+                name: "",
+                tel: ""
         };
 
         person.nickname = req.params.nickname;
@@ -44,8 +50,6 @@ exports.delete = function(req, res){
 
 exports.upload = function(req, res) {
 
-    var fs = require('fs');
-    var path = require('path');
     var type = req.params.type;   // 'photo' or 'voice'
     var ext;
 
