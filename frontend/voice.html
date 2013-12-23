@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 Voice Recorder</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style-voice.css">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Voice Recorder</h1>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <canvas id="analyser" width="512" height="240"></canvas>
+                    &nbsp;
+                    <canvas id="wavedisplay" width="512" height="240"></canvas>
+                    <audio id="audiodisplay"></audio>
+                </div>
+
+                <div id="countdown"></div>
+            </div>
+
+            <div class="col-md-12">
+                <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+                <img id="save" src="img/save.svg">
+                <!-- <button class="btn btn-warning" id="send">Send</button> -->
+                <!-- <button class="btn btn-primary" id="playaudio">Play</button> -->
+            </div>
+            <br />
+
+        </div>
+    </div>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/AudioContextMonkeyPatch.js"></script>
+    <script src="js/recorder.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
