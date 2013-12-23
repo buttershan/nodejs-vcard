@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -22,8 +21,9 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.multipart());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -32,9 +32,13 @@ if ('development' == app.get('env')) {
 
 // REST API
 app.post('/1/user/:nickname', api.create);
-app.get('/1/user/:nickname', api.read);
+app.get('/1/user', api.read);
 app.put('/1/user/:nickname', api.update);
 app.delete('/1/user/:nickname', api.delete);
+
+
+// Profile
+app.post('/1/user/:nickname/:type', api.upload);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
